@@ -59,11 +59,18 @@ root.grid()
 root.title("Bonjour.")
 jour = datetime.datetime.today().weekday()
 
-if jour < 4: lejour = f"Nous serons vendredi dans {jour} jours."
-elif jour > 4: lejour = f"Nous serons vendredi dans {4+abs(jour-4)} jours."
-else: lejour = "Nous sommes vendredi."
-
 #jour = 4 #RETIRER LE PREMIERE "#" POUR RENDRE L'APPLICATION ACCESSIBLE MÊME LORSQUE NOUS NE SOMMES PAS VENDREDI
+
+jours = {0 : "Nous serons vendredi dans 4 jours.",
+1: "Nous serons vendredi dans 3 jours.",
+2: "Nous serons vendredi dans 2 jours.",
+3: "Nous serons vendredi dans 1 jour.",
+5: "Nous serons vendredi dans 6 jours.",
+6: "Nous serons vendredi dans 5 jours.",
+}
+
+if jour != 4: lejour = jours.get(jour)
+else: lejour = "Nous sommes vendredi."
 
 jourdelasemaine = tkinter.Label(root, text = lejour); jourdelasemaine.pack()
 espace1 = tkinter.Label(root, text = " "); espace1.pack()
