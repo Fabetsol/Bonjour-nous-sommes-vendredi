@@ -1,6 +1,6 @@
 from pydub import AudioSegment
 from moviepy.editor import *
-from pytube import YouTube
+import pytube
 import os
 import tkinter
 from tkinter.filedialog import asksaveasfile
@@ -17,26 +17,27 @@ def video():
     extrait = timecode.get().split(":")
     if len(extrait) != 2: texttimecode.config(text = "Merci de respecter le format min:sec ! (exemple: 02:03 )");return
     try:
-        min = int(extrait[0])
-        sec = int(extrait[1])
+        min = float(extrait[0])
+        sec = float(extrait[1])
     except: texttimecode.config(text = "Merci de respecter le format min:sec ! (exemple: 02:03 )");return
 
     extrait = (min*60+sec)*1000
     extrait_fin = extrait + 5000
+    
+    # try: yt = pytube.YouTube(lienvidéo.get());print("ca marche")
+    # except: vidéotext.config(text = "Merci de mettre un lien de vidéo youtube valide !"); return
 
-    try: yt = YouTube(lienvidéo.get())
-    except: vidéotext.config(text = "Merci de mettre un lien de vidéo youtube valide !"); return
+    # out_file = yt.streams.filter(file_extension="mp4").first().download("mps")
 
-    out_file = yt.streams.filter(file_extension="mp4").first().download("mps")
+    # try: os.remove("mps\\custom.mp4")
+    # except:pass
+    # try: os.remove("mps\\custom.mp3")
+    # except:pass
 
-    try: os.remove("mps\\custom.mp4")
-    except:pass
-    try: os.remove("mps\\custom.mp3")
-    except:pass
+    # os.rename(out_file, "mps\\custom.mp4")
 
-    os.rename(out_file, "mps\\custom.mp4")
-    my_clip = VideoFileClip("mps\\custom.mp4")
-    my_clip.audio.write_audiofile("mps\\custom.mp3")
+    #my_clip = VideoFileClip("mps\\custom.mp4")
+    #my_clip.audio.write_audiofile("mps\\custom.mp3")
     
     sound = AudioSegment.from_mp3("mps\\custom.mp3")
     bonjourA = AudioSegment.from_mp3("mps\\bonjour.mp3")
@@ -59,7 +60,7 @@ root.grid()
 root.title("Bonjour.")
 jour = datetime.datetime.today().weekday()
 
-#jour = 4 #RETIRER LE PREMIERE "#" POUR RENDRE L'APPLICATION ACCESSIBLE MÊME LORSQUE NOUS NE SOMMES PAS VENDREDI
+jour = 4 #RETIRER LE PREMIERE "#" POUR RENDRE L'APPLICATION ACCESSIBLE MÊME LORSQUE NOUS NE SOMMES PAS VENDREDI
 
 jours = {0 : "Nous serons vendredi dans 4 jours.",
 1: "Nous serons vendredi dans 3 jours.",
